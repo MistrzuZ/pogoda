@@ -9,7 +9,6 @@ const { Header, Content, Footer, Sider } = Layout;
 
 class App extends React.Component {
   state = {
-    logged: false,
     login: undefined,
     followedCities: undefined
   };
@@ -18,6 +17,11 @@ class App extends React.Component {
     this.setState({ [name]: event} )
     console.log(event)
 }
+
+  setLogin = (login) => {
+    this.setState({ login })
+    console.log(login)
+  }
 
   render() {
     return (
@@ -33,16 +37,12 @@ class App extends React.Component {
                 </Link>
               </Menu.Item>
               <Menu.Item key="2">
-                <Icon type="user" />
-                <span>Register</span>
-              </Menu.Item>
-              <Menu.Item key="3">
                 <Link to="/followCity">
                   <Icon type="environment" />
                   <span>Follow City</span>
                 </Link>
               </Menu.Item>
-              <Menu.Item key="4">
+              <Menu.Item key="3">
                 <Link to="/info">
                   <Icon type="fire" />
                   <span>More Info</span>
@@ -54,7 +54,7 @@ class App extends React.Component {
             <Header style={{ background: '#fff', padding: 0 }} />
             <Content style={{ margin: '14px 16px' }}>
               <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-                <Route name="login" path="/login" render={() => <Login setUser={this.setUser} /> } />
+                <Route name="login" path="/login" render={() => <Login handleChange={this.handleChange} setLogin={this.setLogin} /> } />
                 <Route name="followCity" path="/followCity" render={() => <City handleChange={this.handleChange} followed={this.state.followedCities} />} />
                 <Route name="info" path="/info" render={() => <Info followed={this.state.followedCities}/>} />
               </div>

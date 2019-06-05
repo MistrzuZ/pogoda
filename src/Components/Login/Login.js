@@ -6,14 +6,25 @@ function hasErrors(fieldsError) {
 }
 
 class Login extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      login: undefined
+    }
+  }
   componentDidMount() {
     // To disabled submit button at the beginning.
     this.props.form.validateFields();
   }
 
-  handleSubmit = e => {
-    this.props.setUser()
-  };
+    handleChange = name => event => {
+    this.setState({ [name]: event.target.value} )
+    console.log(this.state.login)
+  }
+
+  setLogin = () => {
+    this.props.setLogin(this.state.login)
+  }
 
   render() {
     const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
@@ -30,6 +41,7 @@ class Login extends React.Component {
             <Input
               prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
               placeholder="Username"
+              onChange={this.handleChange('login')}
             />,
           )}
         </Form.Item>
@@ -45,7 +57,7 @@ class Login extends React.Component {
           )}
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit" disabled={hasErrors(getFieldsError())} onClick={this.handleSubmit}>
+          <Button type="primary" htmlType="submit" disabled={hasErrors(getFieldsError())} onClick={this.setLogin}>
             Log in
           </Button>
         </Form.Item>

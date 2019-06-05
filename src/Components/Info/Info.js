@@ -9,20 +9,17 @@ class Info extends React.Component {
 
     async componentDidMount() {
         if (this.props.followed) {
-            this.getData(this.props.followed);
+            setInterval(this.getData(this.props.followed), 60000)
         }
     }
 
-    getData = followed => {
-        const citiesInfo = [];
-        this.setState({ loading: true })
-        followed.map( async id => {
-            const response = await fetch(`https://cors.io/?https://openweathermap.org/data/2.5/weather?id=${id}&appid=b6907d289e10d714a6e88b30761fae22`);
-            const data = await response.json();
-            citiesInfo.push(data);
-        })
-        this.setState({citiesInfo, loading: false})
+    getData = async followed => {
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/group?id=${followed}&units=metric&appid=c8dcba9ce84fd9fb41e9b6b88061ed68`)
+        const data = await response.json()
+        this.setState({ citiesInfo: data.list })
+        console.log(this.state.citiesInfo)
     }
+
     render() {
         console.log(this.state.citiesInfo)
         const { citiesInfo } = this.state
