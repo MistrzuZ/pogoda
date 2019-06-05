@@ -9,11 +9,13 @@ class Info extends React.Component {
 
     async componentDidMount() {
         if (this.props.followed) {
-            setInterval(this.getData(this.props.followed), 60000)
+            this.getData()
+            setInterval(this.getData, 60000)
         }
     }
 
-    getData = async followed => {
+    getData = async () => {
+        const followed = this.props.followed
         const response = await fetch(`https://api.openweathermap.org/data/2.5/group?id=${followed}&units=metric&appid=c8dcba9ce84fd9fb41e9b6b88061ed68`)
         const data = await response.json()
         this.setState({ citiesInfo: data.list })
@@ -21,12 +23,11 @@ class Info extends React.Component {
     }
 
     render() {
-        console.log(this.state.citiesInfo)
         const { citiesInfo } = this.state
         return(
-            <div style={{display: 'flex'}}>
+            <div style={{display: 'flex', flexWrap: 'wrap'}}>
                 {
-                    (citiesInfo && this.state.loading === false) ?
+                    (citiesInfo) ?
                     citiesInfo.map((city, i) => {
                         return (<Card key={i} style={{ width: 300, margin: '5px' }} title={city.name}>
                                     <p>Temperatura: {city.main.temp}</p>
@@ -34,8 +35,7 @@ class Info extends React.Component {
                                 </Card>
                         )
                     })
-                    :
-                    <h3>Select follow city</h3>
+                    : <h3>First please follow some city!</h3>
                     }
             </div>
         )

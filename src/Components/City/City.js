@@ -1,5 +1,5 @@
 import React from 'react';
-import { Select } from 'antd';
+import { Select, Checkbox, Row, Col } from 'antd';
 import Cities from './list.json';
 
 const { Option } = Select;
@@ -16,8 +16,9 @@ class City extends React.PureComponent {
     componentWillMount() {
         console.log(new Date());
         this.cities = Cities.map((city, i) => {
-            if (city.country === "PL" && i < 1000) {
+            if (city.country === "PL" && i < 100) {
                 return <Option key={city.id}>{city.name}</Option>
+                // return <Col key={i} span={8}><Checkbox value={city.id}>{city.name}</Checkbox></Col>
             }
             return null;
         });
@@ -43,11 +44,18 @@ class City extends React.PureComponent {
         return(
             <div>
                 <h3>Follow your favorite city:</h3>
-                <Select ref='test' value={this.props.followed} mode="tags" style={{ width: '100%' }} placeholder="Tags Mode" onChange={this.props.handleChange('followedCities')}>
+                <Select mode="multiple" value={this.props.followed} style={{ width: '100%' }} placeholder="Select your city" onChange={this.props.handleChange('followedCities')}>
                     {this.cities}
                 </Select>
             </div>
         )
+        // return(
+        //     <Checkbox.Group style={{ width: '100%' }} onChange={this.props.handleChange('followedCities')}>
+        //         <Row>
+        //             {this.cities}
+        //         </Row>
+        //     </Checkbox.Group>
+        // )
     }
 }
 
