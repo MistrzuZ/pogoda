@@ -1,69 +1,43 @@
 import React from 'react';
-import { Form, Icon, Input, Button } from 'antd';
-
-function hasErrors(fieldsError) {
-  return Object.keys(fieldsError).some(field => fieldsError[field]);
-}
+import { Form, Icon, Input, Button, Card } from 'antd';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 class Login extends React.Component {
-  constructor() {
-    super()
-    this.state = {
-      login: undefined
-    }
-  }
-  componentDidMount() {
-    // To disabled submit button at the beginning.
-    this.props.form.validateFields();
+  state = {
+    username: undefined
   }
 
-    handleChange = name => event => {
-    this.setState({ [name]: event.target.value} )
-    console.log(this.state.login)
+  setUsername = (v) => {
+    this.state.username = v.target.value
   }
 
   setLogin = () => {
-    this.props.setLogin(this.state.login)
+    if (this.state.username) {
+      this.props.setLogin(this.state.username)
+    }
   }
 
   render() {
-    const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
-
-    // Only show error after a field is touched.
-    const usernameError = isFieldTouched('username') && getFieldError('username');
-    const passwordError = isFieldTouched('password') && getFieldError('password');
-    return (
-      <Form layout="inline">
-        <Form.Item validateStatus={usernameError ? 'error' : ''} help={usernameError || ''}>
-          {getFieldDecorator('username', {
-            rules: [{ required: true, message: 'Please input your username!' }],
-          })(
-            <Input
-              prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              placeholder="Username"
-              onChange={this.handleChange('login')}
-            />,
-          )}
-        </Form.Item>
-        <Form.Item validateStatus={passwordError ? 'error' : ''} help={passwordError || ''}>
-          {getFieldDecorator('password', {
-            rules: [{ required: true, message: 'Please input your Password!' }],
-          })(
-            <Input
-              prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              type="password"
-              placeholder="Password"
-            />,
-          )}
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit" disabled={hasErrors(getFieldsError())} onClick={this.setLogin}>
-            Log in
-          </Button>
-        </Form.Item>
-      </Form>
-    );
+    return(
+      <Card style={{ width: 350, marginLeft: 'auto', marginRight: 'auto' }}>
+        <Input
+          style={{ margin: '15px 0px' }}
+          onChange={this.setUsername}
+          prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)'}} />}
+          placeholder="Username"
+        />
+        <Input
+          style={{ margin: '15px 0px' }}
+          prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+          type="password"
+          placeholder="Password"
+        />
+        <Link to="/followCity">
+          <Button type="primary" onClick={this.setLogin} >Login</Button>
+        </Link>
+      </Card>
+    )
   }
 }
 
-export default Form.create()(Login)
+export default Login

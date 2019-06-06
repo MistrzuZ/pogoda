@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Menu, Icon } from 'antd';
+import { Layout, Menu, Icon, Badge } from 'antd';
 import City from './Components/City/City'
 import Login from './Components/Login/Login'
 import Info from './Components/Info/Info'
@@ -10,17 +10,26 @@ const { Header, Content, Footer, Sider } = Layout;
 class App extends React.Component {
   state = {
     login: undefined,
-    followedCities: undefined
+    followedCities: undefined,
+    followedCount: 0
   };
 
   handleChange = name => event => {
     this.setState({ [name]: event} )
     console.log(event)
+    if (name === "followedCities") {
+      const followedCount = event.length
+      this.setState({ followedCount })
+    }
 }
 
   setLogin = (login) => {
     this.setState({ login })
     console.log(login)
+  }
+
+  logout = () => {
+    this.setState({ login: undefined, followedCities: undefined, followedCount: 0})
   }
 
   render() {
@@ -29,32 +38,50 @@ class App extends React.Component {
         <Layout style={{ minHeight: '100vh' }}>
           <Sider collapsible collapsed={this.state.collapsed} >
             <div className="logo" />
-            <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-              <Menu.Item key="1">
-                <Link to="/login">
-                  <Icon type="user" />
-                  <span>Login</span>
-                </Link>
-              </Menu.Item>
-              <Menu.Item key="2">
-                <Link to="/followCity">
-                  <Icon type="environment" />
-                  <span>Follow City</span>
-                </Link>
-              </Menu.Item>
-              <Menu.Item key="3">
-                <Link to="/info">
-                  <Icon type="fire" />
-                  <span>More Info</span>
-                </Link>
-              </Menu.Item>
-            </Menu>
+              {
+                (!this.state.login) ?
+                (
+                  <Menu theme="dark" mode="inline">
+                    <Menu.Item key="1">
+                      <Link to="/login">
+                        <Icon type="user" />
+                        <span>Login</span>
+                      </Link>
+                    </Menu.Item>
+                  </Menu>
+                )
+                :
+                (
+                  <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+                    <Menu.Item key="1">
+                      <Link to="/followCity">
+                        <Icon type="environment" />
+                        <span>Follow City</span>
+                      </Link>
+                    </Menu.Item>
+                    <Menu.Item key="2">
+                      <Link to="/info">
+                        <Badge count={this.state.followedCount} offset={[12,0]}>
+                          <Icon type="fire" />
+                          <span>More Info</span>
+                        </Badge>
+                      </Link>
+                    </Menu.Item>
+                    <Menu.Item key="3" onClick={this.logout}>
+                      <Link to="/login">
+                        <Icon type="poweroff" />
+                        <span>Logout</span>
+                      </Link>
+                    </Menu.Item>
+                  </Menu>
+                )
+              }
           </Sider>
           <Layout>
             <Header style={{ background: '#fff', padding: 0 }} />
             <Content style={{ margin: '14px 16px' }}>
               <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-                <Route name="login" path="/login" render={() => <Login handleChange={this.handleChange} setLogin={this.setLogin} /> } />
+                <Route exact name="login" path="/login" render={() => <Login handleChange={this.handleChange} setLogin={this.setLogin} /> } />
                 <Route name="followCity" path="/followCity" render={() => <City handleChange={this.handleChange} followed={this.state.followedCities} />} />
                 <Route name="info" path="/info" render={() => <Info followed={this.state.followedCities}/>} />
               </div>
