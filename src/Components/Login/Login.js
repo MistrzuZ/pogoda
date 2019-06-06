@@ -1,6 +1,6 @@
 import React from 'react';
-import { Form, Icon, Input, Button, Card } from 'antd';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Icon, Input, Button, Card } from 'antd';
+import { Link } from "react-router-dom";
 
 class Login extends React.Component {
   state = {
@@ -8,7 +8,7 @@ class Login extends React.Component {
   }
 
   setUsername = (v) => {
-    this.state.username = v.target.value
+    this.setState({ username: v.target.value })
   }
 
   setLogin = () => {

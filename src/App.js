@@ -69,7 +69,7 @@ class App extends React.Component {
                       </Link>
                     </Menu.Item>
                     <Menu.Item key="3" onClick={this.logout}>
-                      <Link to="/">
+                      <Link to="/login">
                         <Icon type="poweroff" />
                         <span>Logout</span>
                       </Link>

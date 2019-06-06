@@ -14,7 +14,6 @@ class City extends React.PureComponent {
     }
 
     componentWillMount() {
-        console.log(new Date());
         this.cities = Cities.map((city, i) => {
             if (city.country === "PL" && i < 10000) {
                 // return <Option key={city.id}>{city.name}</Option>
@@ -52,6 +51,7 @@ class City extends React.PureComponent {
         return(
             <Checkbox.Group style={{ width: '100%' }} onChange={this.props.handleChange('followedCities')}>
                 <h3>Follow your favorite city:</h3>
+                {this.props.match.url}
                 <Row>
                     {this.cities}
                 </Row>
