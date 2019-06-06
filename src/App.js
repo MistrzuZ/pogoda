@@ -33,6 +33,7 @@ class App extends React.Component {
   }
 
   render() {
+    console.log()
     return (
       <Router>
         <Layout style={{ minHeight: '100vh' }}>
@@ -52,7 +53,7 @@ class App extends React.Component {
                 )
                 :
                 (
-                  <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+                  <Menu theme="dark" mode="inline">
                     <Menu.Item key="1">
                       <Link to="/followCity">
                         <Icon type="environment" />
@@ -68,7 +69,7 @@ class App extends React.Component {
                       </Link>
                     </Menu.Item>
                     <Menu.Item key="3" onClick={this.logout}>
-                      <Link to="/login">
+                      <Link to="/">
                         <Icon type="poweroff" />
                         <span>Logout</span>
                       </Link>
@@ -76,9 +77,11 @@ class App extends React.Component {
                   </Menu>
                 )
               }
-          </Sider>
+          </Sider> 
           <Layout>
-            <Header style={{ background: '#fff', padding: 0 }} />
+            <Header style={{ background: '#fff', padding: 0 }}>
+              <h2 style={{ margin: '0px 16px', padding: 0}}>Przykładowa aplikacja pogody</h2>
+            </Header>
             <Content style={{ margin: '14px 16px' }}>
               <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
                 <Route exact name="login" path="/login" render={() => <Login handleChange={this.handleChange} setLogin={this.setLogin} /> } />
